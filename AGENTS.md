@@ -36,6 +36,7 @@ sh waterbox/setup-guest.sh -m "$MB" && ninja -C build/meson-guest core.wbx
 ./waterbox/build-package.sh -m "$MB" -r <chimera>
 <chimera>/build/meson-linux/source/ui/test-packages <folder with only the package>
 ./waterbox/tests/run-frontend.sh --chimera-root <chimera>   # 6 ok
+./waterbox/tests/run-local.sh       # commercial games in tests/roms-local; SKIP when absent
 ```
 
 ## Rules

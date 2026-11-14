@@ -146,12 +146,18 @@ presses dropped, the media left out of the save data, PAL ignored) gave
 
 ### What the tests do not prove
 
-- The stand-in BIOS has none of OS-7's routines, and the ADAM stand-ins none
-  of EOS or SmartWriter. No commercial game has been run with the real
-  firmware: the owner's firmware had not arrived. Carnival (SHA-1
-  41e08352...) and Oil's Well (779e43f1...) were run for 1800 frames with
-  the stand-in BIOS, native == sandbox == rerecord, but they wait on OS-7
-  and never read the controllers (1800 lag frames): not played.
+- Commercial games with the owner's real BIOS (Coleco_Bios.bin, SHA-1
+  45bedc4c..., the pinned dump), 2026-11-14, `waterbox/tests/run-local.sh`:
+  Carnival (SHA-1 41e08352...) and Oil's Well (779e43f1...), 3600 frames of
+  the pad exercise each (the keypad starts the game), native == sandbox ==
+  rerecord. Both go past the title into play: screenshots at frames 900,
+  1800 and 3600 show Carnival's score at 250 and 560 and Oil's Well's at 30
+  and 60. These are the only two ColecoVision games on hand; the third file
+  in the owner's folder, "Venture (1982) (Coleco).int", is an Intellivision
+  ROM (its first bytes are no ColecoVision header) and is rightly refused.
+  No Super Game Module game was on hand.
+- The ADAM has not run on its real ROMs (EOS and SmartWriter were not on
+  hand): only on this repository's stand-ins.
 - The F18A is run only with the test cartridge, which uses none of its own
   features.
 - MegaCart, Activision and OCM boards and battery save data are not run (no
@@ -165,3 +171,6 @@ presses dropped, the media left out of the save data, PAL ignored) gave
 - 2026-11-14: repository made; Gearcoleco pinned at 1.7.6. Both builds,
   the package, Chimera's contract tests (all pass), run-gate.sh 35 ok and
   run-frontend.sh 6 ok on jaffanator01 (in the chimera-dev container).
+- 2026-11-14 (later): the owner's BIOS matches the pin; Carnival and Oil's
+  Well played into the game, native == sandbox == rerecord over 3600
+  frames; waterbox/tests/run-local.sh added for them (SKIP when absent).

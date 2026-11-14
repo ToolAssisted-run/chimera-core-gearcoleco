@@ -54,7 +54,9 @@ Rebuild both flavors first: the scripts build nothing.
 
 The test programs are built from `tests/make-test-content.py` by the scripts
 themselves. Games and the real firmware for local runs go in
-`tests/roms-local/` (ignored by git); nothing runs them automatically yet.
+`tests/roms-local/` (ignored by git): `./waterbox/tests/run-local.sh` runs the
+games docs/PLAN.md names with the real BIOS (`Coleco_Bios.bin`), checked by
+SHA-1, and says SKIP for each that is absent.
 
 ## CI
 
