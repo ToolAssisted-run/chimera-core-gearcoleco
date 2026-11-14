@@ -1,0 +1,64 @@
+Chimera's changes to Gearcoleco 1.7.6, all build options or hooks:
+
+- GearcolecoCore.cpp: with GEARCOLECO_FIXED_RANDOM_SEED defined, the random
+  numbers that fill the console's memory at power on are not seeded from the
+  host's clock. They start from the class's own fixed seed, so two runs of a
+  movie start from the same memory.
+- definitions.h, Input.cpp, AdamNet.cpp: a function pointer,
+  gearcoleco_input_read_hook, called each time the program reads its
+  controllers (Input::ReadInput) or the ADAM keyboard (a keyboard read
+  through ADAMnet). It is NULL unless a frontend sets it. Chimera uses it to
+  tell frames that read input from lag frames, and to run a Lua script's
+  input-poll event at the moment of the read.
+
+--- a/src/AdamNet.cpp
++++ b/src/AdamNet.cpp
+@@ -474,6 +474,9 @@
+             u16 transferred = 0;
+             u8 code = 0;
+ 
++            if (gearcoleco_input_read_hook)
++                gearcoleco_input_read_hook();
++
+             if ((requested > 0) && PopKey(&code))
+             {
+                 m_pAdam->WritePhysicalRAM(m_Transfer.buffer, code);
+--- a/src/definitions.h
++++ b/src/definitions.h
+@@ -559,4 +559,8 @@
+     #define NO_INLINE
+ #endif
+ 
++// Called each time the machine reads its controllers or its keyboard, when
++// a frontend sets it (it may be left NULL).
++extern void (*gearcoleco_input_read_hook)(void);
++
+ #endif	/* DEFINITIONS_H */
+--- a/src/GearcolecoCore.cpp
++++ b/src/GearcolecoCore.cpp
+@@ -95,7 +95,9 @@
+ 
+     m_pCartridge = new Cartridge();
+     m_pRandom = new Random();
++#if !defined(GEARCOLECO_FIXED_RANDOM_SEED)
+     m_pRandom->Seed((u32)time(NULL));
++#endif
+     m_pMemory = new Memory(m_pCartridge, m_pRandom);
+     m_pProcessor = new Processor(m_pMemory);
+     m_pAudio = new Audio();
+--- a/src/Input.cpp
++++ b/src/Input.cpp
+@@ -47,8 +47,13 @@
+     m_Segment = segment;
+ }
+ 
++void (*gearcoleco_input_read_hook)(void) = NULL;
++
+ u8 Input::ReadInput(u8 port)
+ {
++    if (gearcoleco_input_read_hook)
++        gearcoleco_input_read_hook();
++
+     u8 c = (port & 0x02) >> 1;
+     u8 ret = 0xFF;
+ 

@@ -1,0 +1,111 @@
+{
+  "_comment": "The kinds of file a project of this core holds; Chimera's New Project window is built from it. A ColecoVision project is one cartridge. An ADAM project is any of a cartridge, two disks and two data packs: a cartridge alone starts the ADAM as a game, anything in a drive (or nothing at all) starts it as a computer, whose SmartWriter ROM boots what the drives hold. Only the chosen machine's slots are shown.",
+  "slots": [
+    {
+      "id": "cart",
+      "title": "slot.cart",
+      "min": 1,
+      "max": 1,
+      "formats": [
+        "col",
+        "cv",
+        "rom",
+        "bin",
+        "zip"
+      ],
+      "help": "slot.cart.help",
+      "exposedWhen": {
+        "setting": "machine",
+        "is": "colecovision"
+      }
+    },
+    {
+      "id": "adamcart",
+      "title": "slot.cart",
+      "min": 0,
+      "max": 1,
+      "formats": [
+        "col",
+        "cv",
+        "rom",
+        "bin",
+        "zip"
+      ],
+      "help": "slot.adamcart.help",
+      "exposedWhen": {
+        "setting": "machine",
+        "is": "adam"
+      }
+    },
+    {
+      "id": "disk1",
+      "title": "slot.disk1",
+      "min": 0,
+      "max": 1,
+      "formats": [
+        "dsk",
+        "zip"
+      ],
+      "help": "slot.disk.help",
+      "exposedWhen": {
+        "setting": "machine",
+        "is": "adam"
+      }
+    },
+    {
+      "id": "disk2",
+      "title": "slot.disk2",
+      "min": 0,
+      "max": 1,
+      "formats": [
+        "dsk",
+        "zip"
+      ],
+      "help": "slot.disk.help",
+      "exposedWhen": {
+        "setting": "machine",
+        "is": "adam"
+      }
+    },
+    {
+      "id": "datapack1",
+      "title": "slot.datapack1",
+      "min": 0,
+      "max": 1,
+      "formats": [
+        "ddp",
+        "zip"
+      ],
+      "help": "slot.datapack.help",
+      "exposedWhen": {
+        "setting": "machine",
+        "is": "adam"
+      }
+    },
+    {
+      "id": "datapack2",
+      "title": "slot.datapack2",
+      "min": 0,
+      "max": 1,
+      "formats": [
+        "ddp",
+        "zip"
+      ],
+      "help": "slot.datapack.help",
+      "exposedWhen": {
+        "setting": "machine",
+        "is": "adam"
+      }
+    },
+    {
+      "id": "savedata",
+      "title": "slot.savedata",
+      "min": 0,
+      "max": 1,
+      "formats": [
+        "sav"
+      ],
+      "help": "slot.savedata.help"
+    }
+  ]
+}

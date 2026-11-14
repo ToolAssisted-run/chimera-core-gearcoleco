@@ -1,0 +1,42 @@
+{
+  "package": "gearcoleco",
+  "effectiveTerms": "GPL-3.0-or-later",
+  "commercialUse": "allowed under the GPL",
+  "note": "The core is Gearcoleco 1.7.6 (GPL-3.0-or-later) with this repository's patches (GPL-3.0-or-later) and integration (MIT); the package is distributed under the GPL version 3 or later. Compiled in, inside Gearcoleco: Blip_Buffer and Sms_Apu by Shay Green (LGPL-2.1-or-later, conveyed here under the GPL as its section 3 allows), miniz 3.1.2 (public domain) and the F18A's GPU program by Matthew Hagerty (BSD-3-Clause). The package contains no BIOS, no Coleco ROM and no game: the user supplies them.",
+  "components": [
+    {
+      "name": "chimera-core-gearcoleco (integration)",
+      "license": "MIT, and GPL-3.0-or-later for patches/",
+      "url": "https://github.com/ToolAssisted-run/chimera-core-gearcoleco",
+      "commit": "{selfCommit}",
+      "file": "LICENSE",
+      "sourceUrl": "https://github.com/ToolAssisted-run/chimera-core-gearcoleco/archive/{commit}.tar.gz"
+    },
+    {
+      "name": "Gearcoleco 1.7.6",
+      "license": "GPL-3.0-or-later",
+      "url": "https://github.com/drhelius/Gearcoleco",
+      "commit": "{submodule:extern/gearcoleco}",
+      "file": "extern/gearcoleco/LICENSE",
+      "sourceUrl": "https://github.com/drhelius/Gearcoleco/archive/{commit}.tar.gz"
+    },
+    {
+      "name": "Blip_Buffer 0.4.1 and Sms_Apu (in Gearcoleco)",
+      "license": "LGPL-2.1-or-later",
+      "url": "http://www.slack.net/~ant/",
+      "file": "extern/gearcoleco/src/audio/Blip_Buffer.cpp"
+    },
+    {
+      "name": "miniz 3.1.2 (in Gearcoleco)",
+      "license": "Public domain (Unlicense)",
+      "url": "https://github.com/richgel999/miniz",
+      "file": "extern/gearcoleco/platforms/shared/dependencies/miniz/miniz.c"
+    },
+    {
+      "name": "F18A GPU program (in Gearcoleco)",
+      "license": "BSD-3-Clause",
+      "url": "https://github.com/dnotq/f18a",
+      "file": "licenses/F18A-BSD-3-Clause.txt"
+    }
+  ]
+}

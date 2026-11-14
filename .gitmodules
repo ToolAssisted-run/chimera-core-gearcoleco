@@ -1,0 +1,4 @@
+[submodule "extern/gearcoleco"]
+	path = extern/gearcoleco
+	url = https://github.com/drhelius/Gearcoleco.git
+	shallow = true
