@@ -1,6 +1,8 @@
 {
 	"texts": {
 		"error.adam_firmware": "A Gearcoleco nem tudta elindítani az ADAM-et a megadott firmware-rel. Kell hozzá a ColecoVision BIOS (8 KB), az EOS ROM (8 KB) és a SmartWriter ROM (32 KB).",
+		"error.eos_half": "A(z) '%1' firmware 16384 bájtos, de az első 8192 bájtja nem az EOS ROM.",
+		"error.eos_size": "A(z) '%1' firmware %2 bájtos; az EOS ROM 8192 bájtos, vagy 16384 bájtos, ha az első felében van az EOS ROM.",
 		"error.firmware_size": "A(z) '%1' firmware %2 bájtos; %3 bájtosnak kell lennie.",
 		"error.media_rejected": "A Gearcoleco nem tudta ADAM-adathordozóként használni ezt: '%1'. Egy lemezkép (.dsk) 160 KB vagy 320 KB, egy data pack kép (.ddp) 256 KB.",
 		"error.no_cartridge": "A projektben nincs kazettafájl.",

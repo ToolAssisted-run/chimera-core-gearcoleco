@@ -1,6 +1,8 @@
 {
 	"texts": {
 		"error.adam_firmware": "Gearcoleco не зміг запустити ADAM із вказаною прошивкою. Потрібні BIOS ColecoVision (8 KB), ROM EOS (8 KB) і ROM SmartWriter (32 KB).",
+		"error.eos_half": "Прошивка '%1' має 16384 байти, але її перші 8192 байти не є ПЗП EOS.",
+		"error.eos_size": "Прошивка '%1' має %2 байтів; ПЗП EOS має 8192 байти або 16384 байти, якщо ПЗП EOS у першій половині.",
 		"error.firmware_size": "Прошивка '%1' має %2 байтів; має бути %3 байтів.",
 		"error.media_rejected": "Gearcoleco не зміг використати '%1' як носій ADAM. Образ диска (.dsk) має 160 KB або 320 KB, а образ data pack (.ddp) — 256 KB.",
 		"error.no_cartridge": "У проєкті немає файлу картриджа.",

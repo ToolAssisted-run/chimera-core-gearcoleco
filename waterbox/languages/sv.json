@@ -1,6 +1,8 @@
 {
 	"texts": {
 		"error.adam_firmware": "Gearcoleco kunde inte starta ADAM med den angivna firmwaren. Den behöver ColecoVisions BIOS (8 KB), EOS-ROM:en (8 KB) och SmartWriter-ROM:en (32 KB).",
+		"error.eos_half": "Firmwaren '%1' är 16384 byte, men dess första 8192 byte är inte EOS-ROM:et.",
+		"error.eos_size": "Firmwaren '%1' är %2 byte; EOS-ROM:et är 8192 byte, eller 16384 byte med EOS-ROM:et i första halvan.",
 		"error.firmware_size": "Firmwaren '%1' är %2 byte; den måste vara %3 byte.",
 		"error.media_rejected": "Gearcoleco kunde inte använda '%1' som ADAM-media. En diskavbild (.dsk) är 160 KB eller 320 KB, och en datapack-avbild (.ddp) är 256 KB.",
 		"error.no_cartridge": "Det finns ingen kassettfil i projektet.",

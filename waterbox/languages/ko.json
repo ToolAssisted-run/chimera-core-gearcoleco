@@ -1,6 +1,8 @@
 {
 	"texts": {
 		"error.adam_firmware": "Gearcoleco가 주어진 펌웨어로 ADAM을 시작하지 못했습니다. ColecoVision BIOS(8 KB), EOS ROM(8 KB), SmartWriter ROM(32 KB)이 필요합니다.",
+		"error.eos_half": "펌웨어 '%1'은(는) 16384바이트이지만, 처음 8192바이트가 EOS ROM이 아닙니다.",
+		"error.eos_size": "펌웨어 '%1'은(는) %2바이트입니다. EOS ROM은 8192바이트이거나, 앞쪽 절반에 EOS ROM이 있는 16384바이트입니다.",
 		"error.firmware_size": "펌웨어 '%1'은(는) %2바이트입니다. %3바이트여야 합니다.",
 		"error.media_rejected": "Gearcoleco가 '%1'을(를) ADAM 미디어로 사용하지 못했습니다. 디스크 이미지(.dsk)는 160 KB 또는 320 KB이고, 데이터 팩 이미지(.ddp)는 256 KB입니다.",
 		"error.no_cartridge": "프로젝트에 카트리지 파일이 없습니다.",

@@ -18,8 +18,12 @@ setting Machine picks the ColecoVision or the ADAM.
 - For the ADAM: the EOS ROM (8 KB, `eos.rom`; SHA-1
   AD3C20EF444F10AF7AE8EB75C81E500D9B1BBA3D) and the SmartWriter ROM (32 KB,
   `writer.rom`, `wp.rom` or `wp_r80.rom`; SHA-1
-  D4AEC4EFE1431E56FE52D83BAF9118542C525255). A 16 KB EOS file, as ColEm and
-  MAME keep it, is refused: its first 8 KB are the expected ROM.
+  D4AEC4EFE1431E56FE52D83BAF9118542C525255). The core also takes the 16 KB
+  EOS file of MAME and ColEm and uses its first 8 KB, which are the ROM.
+  But Chimera knows only the 8 KB file's hash, and its New Project window
+  refuses a file with another hash, so use the 8 KB file there. Movies made
+  with the 16 KB file name a different EOS than movies made with the 8 KB
+  one.
 - Your games: cartridges (.col, .cv, .rom, .bin, .zip), ADAM disks (.dsk)
   and data packs (.ddp).
 

@@ -1,6 +1,8 @@
 {
 	"texts": {
 		"error.adam_firmware": "Gearcoleco ei voinut käynnistää ADAMia annetulla laiteohjelmistolla. Se tarvitsee ColecoVisionin BIOSin (8 KB), EOS-ROMin (8 KB) ja SmartWriter-ROMin (32 KB).",
+		"error.eos_half": "Laiteohjelmisto '%1' on 16384 tavua, mutta sen ensimmäiset 8192 tavua eivät ole EOS-ROM.",
+		"error.eos_size": "Laiteohjelmisto '%1' on %2 tavua; EOS-ROM on 8192 tavua, tai 16384 tavua niin, että EOS-ROM on ensimmäisessä puoliskossa.",
 		"error.firmware_size": "Laiteohjelmisto '%1' on %2 tavua; sen pitää olla %3 tavua.",
 		"error.media_rejected": "Gearcoleco ei voinut käyttää tiedostoa '%1' ADAMin tallennusvälineenä. Levykuva (.dsk) on 160 KB tai 320 KB, ja datapakkauksen kuva (.ddp) on 256 KB.",
 		"error.no_cartridge": "Projektissa ei ole kasettitiedostoa.",

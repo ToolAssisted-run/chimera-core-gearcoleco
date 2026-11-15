@@ -294,6 +294,20 @@ else
 	report adamcart:runs FAIL "the cartridge's frame count is ${n:-unreadable} after 120 frames"
 fi
 
+# a 16 KiB EOS file (as MAME and ColEm keep it): its first half is the ROM,
+# and the machine is the one the 8 KiB file makes
+adam_wd "$work/eos16" '' "$media" adam-test.dsk=adam-test.dsk adam-test.ddp=adam-test.ddp
+cp "$content/adam-eos16.rom" "$work/eos16/eos.rom"
+"$nat/run-wbx" "$gst/core.wbx" "$work/adam" "${exa[@]}" 2>/dev/null | digests > "$work/eos8.txt"
+"$nat/run-wbx" "$gst/core.wbx" "$work/eos16" "${exa[@]}" 2> "$work/eos16.err" | digests > "$work/eos16.txt"
+if ! grep -q '^frames=900' "$work/eos16.txt"; then
+	report adam:eos-16k FAIL "the 16 KiB EOS file was not taken: $(tr '\n' ' ' < "$work/eos16.err" | head -c 120)"
+elif cmp -s "$work/eos8.txt" "$work/eos16.txt"; then
+	report adam:eos-16k PASS "a 16 KiB EOS file runs the machine the 8 KiB one does"
+else
+	report adam:eos-16k FAIL "$(diff "$work/eos8.txt" "$work/eos16.txt" | tr '\n' ' ' | head -c 160)"
+fi
+
 # ------------------------------------------------------------ what a load refuses
 cv_wd "$work/nobios" '{}' cv-test.col
 rm -f "$work/nobios/colecovision.rom"
@@ -308,6 +322,22 @@ if "$nat/run-wbx" "$gst/core.wbx" "$work/badmedia" --frames 2 2>&1 >/dev/null | 
 	report refuse:bad-media PASS "a disk of the wrong size is refused"
 else
 	report refuse:bad-media FAIL "a disk of the wrong size was not refused"
+fi
+# an EOS file of another size, and a 16 KiB one whose first half is not EOS
+adam_wd "$work/eossize" '' '{}'
+head -c 12288 "$content/adam-eos16.rom" > "$work/eossize/eos.rom"
+if "$nat/run-wbx" "$gst/core.wbx" "$work/eossize" --frames 2 2>&1 >/dev/null | grep -q 'error.eos_size.eos.rom.12288'; then
+	report refuse:eos-size PASS "a 12 KiB EOS file is refused, its size named"
+else
+	report refuse:eos-size FAIL "a 12 KiB EOS file was not refused as the wrong size"
+fi
+adam_wd "$work/eoshalf" '' '{}'
+tail -c 8192 "$content/adam-eos16.rom" > "$work/eoshalf/eos.rom"
+cat "$content/adam-eos.rom" >> "$work/eoshalf/eos.rom"
+if "$nat/run-wbx" "$gst/core.wbx" "$work/eoshalf" --frames 2 2>&1 >/dev/null | grep -q 'error.eos_half.eos.rom'; then
+	report refuse:eos-half PASS "a 16 KiB file whose first half is not EOS is refused"
+else
+	report refuse:eos-half FAIL "a 16 KiB file whose first half is not EOS was not refused"
 fi
 cv_wd "$work/badsave" '{}' cv-test.col
 printf '{"cart":["cv-test.col"],"savedata":["battery.sav"]}' > "$work/badsave/slots"

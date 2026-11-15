@@ -43,9 +43,9 @@ and the applied patch counts as one); CI sets `CORE_VERSION`.
 Rebuild both flavors first: the scripts build nothing.
 
 - `./waterbox/run-gate.sh` - native against sandbox, rerecord, turbo and the
-  rest (docs/PLAN.md, "The tests"). Ends `34 ok, 0 failed`; with
+  rest (docs/PLAN.md, "The tests"). Ends `37 ok, 0 failed`; with
   `CHIMERA_ROOT=$CHIMERA` (a built Chimera with this package installed) it
-  also runs the engine check, `35 ok`.
+  also runs the engine check, `38 ok`.
 - `./waterbox/tests/run-frontend.sh --chimera-root "$CHIMERA"` - Chimera's
   window, headless, with `QT_QPA_PLATFORM=offscreen` or a private X display.
   Ends `6 ok, 0 failed`. Its work folder is `waterbox/tests/work`.

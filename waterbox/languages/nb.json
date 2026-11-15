@@ -1,6 +1,8 @@
 {
 	"texts": {
 		"error.adam_firmware": "Gearcoleco kunne ikke starte ADAM med den oppgitte fastvaren. Den trenger ColecoVision-BIOS-en (8 KB), EOS-ROM-en (8 KB) og SmartWriter-ROM-en (32 KB).",
+		"error.eos_half": "Fastvaren '%1' er 16384 byte, men de første 8192 bytene er ikke EOS-ROM-en.",
+		"error.eos_size": "Fastvaren '%1' er %2 byte; EOS-ROM-en er 8192 byte, eller 16384 byte med EOS-ROM-en i første halvdel.",
 		"error.firmware_size": "Fastvaren '%1' er %2 byte; den må være %3 byte.",
 		"error.media_rejected": "Gearcoleco kunne ikke bruke '%1' som ADAM-medium. Et diskbilde (.dsk) er 160 KB eller 320 KB, og et datapakkebilde (.ddp) er 256 KB.",
 		"error.no_cartridge": "Det er ingen kassettfil i prosjektet.",

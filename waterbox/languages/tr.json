@@ -1,6 +1,8 @@
 {
 	"texts": {
 		"error.adam_firmware": "Gearcoleco, verilen firmware ile ADAM'ı başlatamadı. ColecoVision BIOS'u (8 KB), EOS ROM'u (8 KB) ve SmartWriter ROM'u (32 KB) gerekir.",
+		"error.eos_half": "'%1' firmware dosyası 16384 bayt, ancak ilk 8192 baytı EOS ROM'u değil.",
+		"error.eos_size": "'%1' firmware dosyası %2 bayt; EOS ROM'u 8192 bayttır ya da ilk yarısında EOS ROM'u olan 16384 bayttır.",
 		"error.firmware_size": "'%1' firmware dosyası %2 bayt; %3 bayt olmalıdır.",
 		"error.media_rejected": "Gearcoleco, '%1' dosyasını ADAM ortamı olarak kullanamadı. Bir disk görüntüsü (.dsk) 160 KB veya 320 KB, bir data pack görüntüsü (.ddp) ise 256 KB'tır.",
 		"error.no_cartridge": "Projede kartuş dosyası yok.",

@@ -1,6 +1,8 @@
 {
 	"texts": {
 		"error.adam_firmware": "Gearcoleco nemohl spustit ADAM se zadaným firmwarem. Potřebuje BIOS ColecoVision (8 KB), EOS ROM (8 KB) a SmartWriter ROM (32 KB).",
+		"error.eos_half": "Firmware '%1' má 16384 bajtů, ale jeho prvních 8192 bajtů není ROM EOS.",
+		"error.eos_size": "Firmware '%1' má %2 bajtů; ROM EOS má 8192 bajtů, nebo 16384 bajtů s ROM EOS v první polovině.",
 		"error.firmware_size": "Firmware '%1' má %2 bajtů; musí mít %3 bajtů.",
 		"error.media_rejected": "Gearcoleco nemohl použít '%1' jako médium pro ADAM. Obraz diskety (.dsk) má 160 KB nebo 320 KB a obraz data packu (.ddp) má 256 KB.",
 		"error.no_cartridge": "V projektu není žádný soubor cartridge.",

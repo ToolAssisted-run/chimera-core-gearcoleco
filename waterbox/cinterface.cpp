@@ -134,6 +134,46 @@ static uint8_t *read_firmware(const char *id, long want, long *size)
 	return buf;
 }
 
+/* The EOS ROM is 8 KiB. MAME and ColEm keep it as one 16 KiB file whose
+ * first 8 KiB are that ROM; such a file is taken, its first half used,
+ * only when that half's CRC32 is the one Gearcoleco expects (src/Adam.cpp;
+ * the pinned dump, SHA-1 AD3C20EF...). The owner decided it (2026-11-15). */
+static uint32_t crc32_of(const uint8_t *p, long n)
+{
+	uint32_t crc = ~0U;
+	while (n-- > 0)
+	{
+		crc ^= *p++;
+		for (int bit = 0; bit < 8; bit++)
+			crc = (crc >> 1) ^ (0xEDB88320U & (0U - (crc & 1U)));
+	}
+	return ~crc;
+}
+
+static uint8_t *read_eos(long *size)
+{
+	uint8_t *buf = read_whole(FW_EOS, size);
+	if (buf == NULL)
+	{
+		snprintf(g_loadError, sizeof g_loadError, "error.no_firmware" TEXT_ARG "%s", FW_EOS);
+		return NULL;
+	}
+	if (*size == 2L * Adam::kEOSROMSize
+		&& crc32_of(buf, Adam::kEOSROMSize) == Adam::GetFirmwareMetadata(GC_ADAM_FIRMWARE_EOS)->crc)
+	{
+		*size = Adam::kEOSROMSize; /* the first half; the rest is never read */
+		return buf;
+	}
+	if (*size == 2L * Adam::kEOSROMSize)
+		snprintf(g_loadError, sizeof g_loadError, "error.eos_half" TEXT_ARG "%s", FW_EOS);
+	else if (*size != Adam::kEOSROMSize)
+		snprintf(g_loadError, sizeof g_loadError, "error.eos_size" TEXT_ARG "%s" TEXT_ARG "%ld", FW_EOS, *size);
+	else
+		return buf;
+	free(buf);
+	return NULL;
+}
+
 /* The first file of a slot, by the name the project mounted it under. */
 static int slot_file(const char *slot, char *name, int namesz)
 {
@@ -291,7 +331,7 @@ static int init_adam(void)
 {
 	long n7 = 0, ne = 0, nw = 0;
 	uint8_t *os7 = read_firmware(FW_OS7, Adam::kOS7ROMSize, &n7);
-	uint8_t *eos = os7 ? read_firmware(FW_EOS, Adam::kEOSROMSize, &ne) : NULL;
+	uint8_t *eos = os7 ? read_eos(&ne) : NULL;
 	uint8_t *writer = eos ? read_firmware(FW_WRITER, Adam::kSmartWriterROMSize, &nw) : NULL;
 	int ok = writer != NULL
 		&& g_core->LoadAdamFirmware(os7, (int)n7, eos, (int)ne, writer, (int)nw)

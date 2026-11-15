@@ -1,6 +1,8 @@
 {
 	"texts": {
 		"error.adam_firmware": "Gearcoleco nu a putut porni ADAM cu firmware-ul dat. Are nevoie de BIOS-ul ColecoVision (8 KB), ROM-ul EOS (8 KB) și ROM-ul SmartWriter (32 KB).",
+		"error.eos_half": "Firmware-ul '%1' are 16384 octeți, dar primii săi 8192 octeți nu sunt ROM-ul EOS.",
+		"error.eos_size": "Firmware-ul '%1' are %2 octeți; ROM-ul EOS are 8192 octeți, sau 16384 octeți cu ROM-ul EOS în prima jumătate.",
 		"error.firmware_size": "Firmware-ul '%1' are %2 octeți; trebuie să aibă %3 octeți.",
 		"error.media_rejected": "Gearcoleco nu a putut folosi '%1' ca suport ADAM. O imagine de dischetă (.dsk) are 160 KB sau 320 KB, iar o imagine de data pack (.ddp) are 256 KB.",
 		"error.no_cartridge": "Nu există niciun fișier de cartuș în proiect.",

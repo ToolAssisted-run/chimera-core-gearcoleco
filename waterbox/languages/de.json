@@ -1,6 +1,8 @@
 {
 	"texts": {
 		"error.adam_firmware": "Gearcoleco konnte den ADAM mit der angegebenen Firmware nicht starten. Er braucht das ColecoVision-BIOS (8 KB), das EOS-ROM (8 KB) und das SmartWriter-ROM (32 KB).",
+		"error.eos_half": "Die Firmware '%1' hat 16384 Bytes, aber ihre ersten 8192 Bytes sind nicht das EOS-ROM.",
+		"error.eos_size": "Die Firmware '%1' hat %2 Bytes; das EOS-ROM hat 8192 Bytes, oder 16384 Bytes mit dem EOS-ROM in der ersten Hälfte.",
 		"error.firmware_size": "Die Firmware '%1' hat %2 Bytes; sie muss %3 Bytes haben.",
 		"error.media_rejected": "Gearcoleco konnte '%1' nicht als ADAM-Medium verwenden. Ein Diskettenabbild (.dsk) hat 160 KB oder 320 KB, ein Data-Pack-Abbild (.ddp) hat 256 KB.",
 		"error.no_cartridge": "Im Projekt ist keine Moduldatei.",

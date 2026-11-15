@@ -1,6 +1,8 @@
 {
 	"texts": {
 		"error.adam_firmware": "Gearcoleco 無法用所提供的韌體啟動 ADAM。它需要 ColecoVision BIOS（8 KB）、EOS ROM（8 KB）與 SmartWriter ROM（32 KB）。",
+		"error.eos_half": "韌體「%1」為 16384 位元組，但其前 8192 位元組不是 EOS ROM。",
+		"error.eos_size": "韌體「%1」為 %2 位元組；EOS ROM 為 8192 位元組，或為前半部是 EOS ROM 的 16384 位元組。",
 		"error.firmware_size": "韌體「%1」為 %2 位元組；必須是 %3 位元組。",
 		"error.media_rejected": "Gearcoleco 無法將「%1」當作 ADAM 媒體使用。磁碟映像檔（.dsk）為 160 KB 或 320 KB，資料包映像檔（.ddp）為 256 KB。",
 		"error.no_cartridge": "專案中沒有卡匣檔案。",

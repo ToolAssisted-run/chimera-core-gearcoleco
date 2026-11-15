@@ -1,6 +1,8 @@
 {
 	"texts": {
 		"error.adam_firmware": "指定されたファームウェアでは、GearcolecoはADAMを起動できませんでした。ColecoVision BIOS (8 KB)、EOS ROM (8 KB)、SmartWriter ROM (32 KB) が必要です。",
+		"error.eos_half": "ファームウェア '%1' は 16384 バイトですが、先頭の 8192 バイトが EOS ROM ではありません。",
+		"error.eos_size": "ファームウェア '%1' は %2 バイトです。EOS ROM は 8192 バイト、または前半に EOS ROM を含む 16384 バイトです。",
 		"error.firmware_size": "ファームウェア '%1' は %2 バイトです。%3 バイトである必要があります。",
 		"error.media_rejected": "Gearcolecoは '%1' をADAMのメディアとして使えませんでした。ディスクイメージ (.dsk) は 160 KB または 320 KB、データパックイメージ (.ddp) は 256 KB です。",
 		"error.no_cartridge": "プロジェクトにカートリッジファイルがありません。",

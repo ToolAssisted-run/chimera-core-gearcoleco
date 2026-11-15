@@ -32,7 +32,7 @@ sandboxed guest for Chimera. It produces one file, `gearcoleco.chimeraCore`.
 MB=<chimera>/extern/chimera-common-minibox     # with build/meson-cpp built
 meson setup build/meson-native -Dminibox_dir="$MB" && ninja -C build/meson-native
 sh waterbox/setup-guest.sh -m "$MB" && ninja -C build/meson-guest core.wbx
-./waterbox/run-gate.sh                                   # 34 ok (35 with CHIMERA_ROOT)
+./waterbox/run-gate.sh                                   # 37 ok (38 with CHIMERA_ROOT)
 ./waterbox/build-package.sh -m "$MB" -r <chimera>
 <chimera>/build/meson-linux/source/ui/test-packages <folder with only the package>
 ./waterbox/tests/run-frontend.sh --chimera-root <chimera>   # 6 ok

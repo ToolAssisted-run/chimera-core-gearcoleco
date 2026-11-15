@@ -118,18 +118,40 @@ its debugger windows and its MCP server, and nothing with network code.
   `writer.rom` (32 KiB) to SHA-1 D4AEC4EFE1431E56FE52D83BAF9118542C525255
   (CRC32 58d86a2a): the CRC32s Gearcoleco itself expects (src/Adam.cpp),
   pinned on 2026-11-15, when the owner's dumps arrived, as the owner had
-  decided ("pin eos.rom and writer.rom once dumps arrive"). A pin only names
-  the good dump: Chimera still runs a file of the right size whose SHA-1
-  differs (it says it does not recognise it), which is how the tests feed
-  their stand-ins. The SmartWriter dump is MAME's `wp_r80.rom`. MAME and
-  ColEm keep EOS as one 16 KiB file (`EOS.ROM`, SHA-1 28c7616c...,
-  CRC32 ef6403c5) whose first 8 KiB are the pinned dump; Gearcoleco takes
-  only the 8 KiB one, and so does this core: the 16 KiB file is refused
-  with "The firmware 'eos.rom' is 16384 bytes; it must be 8192 bytes".
+  decided ("pin eos.rom and writer.rom once dumps arrive"). The
+  SmartWriter dump is MAME's `wp_r80.rom`.
+  What a pin does in Chimera (read in Chimera a0b446f8, not changed): the
+  package's `sha1` is one hash. Chimera's New Project window finds a pinned
+  file only by that hash, and refuses a file chosen by hand whose SHA-1
+  differs (new_project_vm.cpp, "chooseFirmware"; Chimera's own test
+  test_vm.cpp checks the refusal for a core that is not a game). The
+  Firmware settings page and chimera-run take such a file and call it not
+  recognised (ce_firmware_state). The tests feed their stand-ins through
+  chimera-run and remembered settings, so the pins do not stop them.
+- **A 16 KiB EOS file** (owner, 2026-11-15: "Accept, use first 8 KiB").
+  MAME and ColEm keep EOS as one 16 KiB file (`EOS.ROM`, SHA-1
+  28C7616CD02E4286F9B4C1C4A8B8850832B49FCB, CRC32 ef6403c5) whose first
+  8 KiB are the pinned dump. The core takes `eos.rom` at 8 KiB as before,
+  or at 16 KiB when the first 8 KiB have the CRC32 Gearcoleco expects of
+  EOS (05a37a34), and then uses those 8 KiB. Any other size, or a 16 KiB
+  file whose first half is not EOS, is refused with a message naming the
+  file and the sizes taken (`error.eos_size`, `error.eos_half`). The
+  declaration no longer gives `eos.rom` a size, since it has two; the pin
+  stays the 8 KiB dump's. A package's `sha1` cannot name two dumps without
+  a change to Chimera, so the 16 KiB file is not recognised by its hash:
+  the Firmware page shows it as not recognised and uses it, chimera-run
+  uses it, and a project made with it records its own SHA-1, so its movies
+  name a different EOS from movies made with the 8 KiB file (the owner
+  knew this). In the New Project window it cannot be chosen by hand (the
+  refusal above) and is not found by a folder scan, so a person using the
+  window needs the 8 KiB file; whether a 16 KiB file remembered on the
+  Firmware page reaches a new project was not tried. The EOS stand-in's
+  last four bytes are set so its CRC32 is 05a37a34, so that the tests can
+  build a 16 KiB stand-in the core takes (tests/make-test-content.py).
 
 ## 4. The tests
 
-`waterbox/run-gate.sh`, 35 checks (34 without a Chimera checkout, where the
+`waterbox/run-gate.sh`, 38 checks (37 without a Chimera checkout, where the
 engine check says SKIP). Each machine's run is compared native against
 sandbox (picture, sound, sample count, lag frames, every memory domain),
 saved and loaded around every frame (rerecord), and drawn half the time
@@ -139,9 +161,11 @@ Module's RAM and sound are used; videoChip, region and overscan reach the
 machine; Reset and Computer Reset change the run; on the ADAM the keyboard,
 the disk and the data pack answer the program, the written media come out
 as save data, native == sandbox, and go back in; a cartridge alone starts
-in the ADAM; a missing BIOS, a disk of the wrong size and save data for a
-cartridge that keeps none are refused; each read of the controllers reaches
-Chimera's engine.
+in the ADAM; a 16 KiB EOS file (the stand-in and 8 KiB of filler) runs the
+machine the 8 KiB one does; a missing BIOS, an EOS file of 12 KiB, a 16 KiB
+one whose first half is not EOS, a disk of the wrong size and save data for
+a cartridge that keeps none are refused; each read of the controllers
+reaches Chimera's engine.
 
 `waterbox/tests/run-frontend.sh`, 6 checks, in Chimera's window run headless
 through projects: a cartridge, held input, a PAL project and an ADAM
@@ -209,3 +233,19 @@ presses dropped, the media left out of the save data, PAL ignored) gave
   harness and through the package (section 4). run-local.sh runs the ADAM
   too: 6 ok. run-gate.sh 35 ok, run-frontend.sh 6 ok and Chimera's
   contract tests (24 pass) with the stand-ins and the pinned package.
+- 2026-11-15 (owner, 2026-11-15): a 16 KiB EOS file is taken, its first
+  8 KiB used when they are EOS (section 3). run-gate.sh gains three checks
+  (38 ok); with the size or the first-half check removed on purpose,
+  refuse:eos-size and refuse:eos-half fail, and the core before this change
+  fails all three. Through the package and chimera-run, the owner's 16 KiB
+  EOS.ROM gives the Main RAM and VRAM the 8 KiB eos.rom gives over 1800
+  frames of typing in SmartWriter (letters seen at frames 600 and 1799),
+  the same with a savestate saved and loaded around every frame; the 16 KiB
+  stand-in gives the 8 KiB stand-in's Main RAM with a disk and a data pack;
+  a 12 KiB file and a 16 KiB file with its halves swapped are refused with
+  the new messages. run-local.sh 7 ok (the 16 KiB EOS added, and seen to
+  fail with a wrong file); run-frontend.sh 6 ok; contract tests 24 pass.
+  Not shown: that the second half is never used. Nothing the tests run
+  reads EOS (the stand-in program never calls it, and SmartWriter typing
+  gave the same machine), so a core that used the wrong half would pass
+  adam:eos-16k; it was tried on purpose and did.

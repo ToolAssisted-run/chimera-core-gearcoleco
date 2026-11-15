@@ -1,6 +1,8 @@
 {
 	"texts": {
 		"error.adam_firmware": "Gearcoleco không thể khởi động ADAM với firmware đã cho. ADAM cần BIOS ColecoVision (8 KB), ROM EOS (8 KB) và ROM SmartWriter (32 KB).",
+		"error.eos_half": "Firmware '%1' có 16384 byte, nhưng 8192 byte đầu của nó không phải ROM EOS.",
+		"error.eos_size": "Firmware '%1' có %2 byte; ROM EOS có 8192 byte, hoặc 16384 byte với ROM EOS ở nửa đầu.",
 		"error.firmware_size": "Firmware '%1' có %2 byte; nó phải có %3 byte.",
 		"error.media_rejected": "Gearcoleco không thể dùng '%1' làm phương tiện cho ADAM. Ảnh đĩa (.dsk) có dung lượng 160 KB hoặc 320 KB, còn ảnh data pack (.ddp) có dung lượng 256 KB.",
 		"error.no_cartridge": "Dự án không có tệp băng game nào.",

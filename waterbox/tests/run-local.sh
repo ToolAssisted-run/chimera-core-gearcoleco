@@ -5,7 +5,9 @@
 # frames of the pad exercise (the keypad included, which starts each game).
 # With the real ADAM ROMs there too (eos.rom, writer.rom), the same for the
 # ADAM: SmartWriter with no media, typed on, and each game as the ADAM's
-# cartridge. A game or a ROM that is absent is a SKIP, never a pass.
+# cartridge; and with eos-16k.rom (the 16 KiB EOS file of MAME and ColEm)
+# the same SmartWriter run as with the 8 KiB one. A game or a ROM that is
+# absent is a SKIP, never a pass.
 #
 # Usage: ./run-local.sh   (after building build/meson-native and build/meson-guest)
 set -u
@@ -18,6 +20,7 @@ bios="$local_dir/Coleco_Bios.bin"
 bios_sha1=45bedc4cbdeac66c7df59e9e599195c778d86a92
 eos_sha1=ad3c20ef444f10af7ae8eb75c81e500d9b1bba3d
 writer_sha1=d4aec4efe1431e56fe52d83baf9118542c525255
+eos16_sha1=28c7616cd02e4286f9b4c1c4a8b8850832b49fcb
 frames=3600
 games=(
 	"Carnival (1982) [a1].col|41e08352df00d4ea4f8b52ce2a81cd0c1581ce93"
@@ -87,6 +90,18 @@ else
 		report "ADAM: SmartWriter, the keys" PASS "typing changes the picture"
 	else
 		report "ADAM: SmartWriter, the keys" FAIL "the picture is the one with nothing typed"
+	fi
+	if ! has eos-16k.rom "$eos16_sha1"; then
+		report "ADAM: 16 KiB EOS" SKIP "needs tests/roms-local/eos-16k.rom (SHA-1 $eos16_sha1)"
+	else
+		cp "$work/b.txt" "$work/eos8.txt"
+		cp "$local_dir/eos-16k.rom" "$wd/eos.rom"
+		"$nat/run-wbx" "$gst" "$wd" --frames 1800 --exercise-keys 2>/dev/null | digests > "$work/eos16.txt"
+		if grep -q '^frames=1800' "$work/eos16.txt" && cmp -s "$work/eos8.txt" "$work/eos16.txt"; then
+			report "ADAM: 16 KiB EOS" PASS "SmartWriter typed on: the run the 8 KiB EOS gives"
+		else
+			report "ADAM: 16 KiB EOS" FAIL "refused, or not the run the 8 KiB EOS gives"
+		fi
 	fi
 fi
 echo; echo "$ok ok, $failed failed"

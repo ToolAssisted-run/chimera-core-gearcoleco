@@ -1,6 +1,8 @@
 {
 	"texts": {
 		"error.adam_firmware": "Gearcoleco tidak dapat memulai ADAM dengan firmware yang diberikan. ADAM memerlukan BIOS ColecoVision (8 KB), ROM EOS (8 KB), dan ROM SmartWriter (32 KB).",
+		"error.eos_half": "Firmware '%1' berukuran 16384 byte, tetapi 8192 byte pertamanya bukan ROM EOS.",
+		"error.eos_size": "Firmware '%1' berukuran %2 byte; ROM EOS berukuran 8192 byte, atau 16384 byte dengan ROM EOS di paruh pertamanya.",
 		"error.firmware_size": "Firmware '%1' berukuran %2 byte; seharusnya %3 byte.",
 		"error.media_rejected": "Gearcoleco tidak dapat memakai '%1' sebagai media ADAM. Image disk (.dsk) berukuran 160 KB atau 320 KB, dan image data pack (.ddp) berukuran 256 KB.",
 		"error.no_cartridge": "Tidak ada file kartrid di proyek.",

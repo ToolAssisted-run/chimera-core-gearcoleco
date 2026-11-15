@@ -40,13 +40,20 @@ Writes:
                  button it writes every fourth one back with one byte
                  changed, so the media change while the program runs.
   adam-eos.rom   8 KiB of $FF with a name in it. Stands in for the EOS ROM,
-                 which the test program never calls.
+                 which the test program never calls. Its last four bytes are
+                 chosen so that its CRC32 is 05a37a34, the one Gearcoleco
+                 expects of EOS: the core takes a 16 KiB EOS file only when
+                 its first half has that CRC32, and the tests feed it this
+                 stand-in plus 8 KiB of filler (adam-eos16.rom). The bytes
+                 are a checksum, not code.
+  adam-eos16.rom adam-eos.rom followed by 8 KiB of $A5.
   adam-test.dsk  160 KiB disk image (160 blocks of 1 KiB, block k filled with
                  (k * 7 + i) & $FF).
   adam-test.ddp  256 KiB data pack image, filled the same way.
 """
 import os
 import sys
+import zlib
 
 
 class Asm:
@@ -294,6 +301,40 @@ def cv_cart(sgm):
     return code
 
 
+# ---- the ADAM's EOS stand-in -------------------------------------------------
+
+def force_crc32(body, target):
+    """body + 4 bytes whose CRC32 is target. CRC32 is affine over GF(2) in
+    those four bytes, so solve for them from the 32 single-bit changes."""
+    base = zlib.crc32(body + b"\0\0\0\0")
+    cols = [zlib.crc32(body + (1 << i).to_bytes(4, "little")) ^ base for i in range(32)]
+    want = base ^ target
+    # Gaussian elimination: rows are (column value, the bit set that makes it)
+    basis = []
+    for i, c in enumerate(cols):
+        x = 1 << i
+        for b, bx in basis:
+            if c ^ b < c:
+                c, x = c ^ b, x ^ bx
+        if c:
+            basis.append((c, x))
+            basis.sort(reverse=True)
+    x = 0
+    for b, bx in basis:
+        if want ^ b < want:
+            want, x = want ^ b, x ^ bx
+    assert want == 0
+    out = body + x.to_bytes(4, "little")
+    assert zlib.crc32(out) == target
+    return out
+
+
+def eos_stand_in():
+    body = (b"chimera-core-gearcoleco free EOS stand-in: no Coleco code\x00"
+            + bytes([0xFF]) * 8192)[:8188]
+    return force_crc32(body, 0x05A37A34)
+
+
 # ---- the ADAM's SmartWriter stand-in -------------------------------------------
 
 PCB = 0xFEC0
@@ -428,13 +469,13 @@ def main():
         "cv-test.col": cv_cart(False),
         "cv-sgm.col": cv_cart(True),
         "adam-writer.rom": adam_writer(),
-        "adam-eos.rom": (b"chimera-core-gearcoleco free EOS stand-in: no Coleco code\x00"
-                         + bytes([0xFF]) * 8192)[:8192],
+        "adam-eos.rom": eos_stand_in(),
+        "adam-eos16.rom": eos_stand_in() + bytes([0xA5]) * 8192,
         "adam-test.dsk": image(160),
         "adam-test.ddp": image(256),
     }
     sizes = {"free-os7.rom": 8192, "cv-test.col": 32768, "cv-sgm.col": 32768,
-             "adam-writer.rom": 32768, "adam-eos.rom": 8192,
+             "adam-writer.rom": 32768, "adam-eos.rom": 8192, "adam-eos16.rom": 16384,
              "adam-test.dsk": 163840, "adam-test.ddp": 262144}
     for name, data in files.items():
         assert len(data) == sizes[name], (name, len(data))

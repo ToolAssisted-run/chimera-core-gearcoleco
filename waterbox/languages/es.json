@@ -1,6 +1,8 @@
 {
 	"texts": {
 		"error.adam_firmware": "Gearcoleco no pudo iniciar el ADAM con el firmware indicado. Necesita la BIOS de ColecoVision (8 KB), la ROM EOS (8 KB) y la ROM de SmartWriter (32 KB).",
+		"error.eos_half": "El firmware '%1' tiene 16384 bytes, pero sus primeros 8192 bytes no son la ROM EOS.",
+		"error.eos_size": "El firmware '%1' tiene %2 bytes; la ROM EOS tiene 8192 bytes, o 16384 bytes con la ROM EOS en la primera mitad.",
 		"error.firmware_size": "El firmware '%1' tiene %2 bytes; debe tener %3 bytes.",
 		"error.media_rejected": "Gearcoleco no pudo usar '%1' como soporte del ADAM. Una imagen de disco (.dsk) tiene 160 KB o 320 KB, y una imagen de data pack (.ddp) tiene 256 KB.",
 		"error.no_cartridge": "No hay ningún archivo de cartucho en el proyecto.",
