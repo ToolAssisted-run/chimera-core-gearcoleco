@@ -137,7 +137,8 @@ static uint8_t *read_firmware(const char *id, long want, long *size)
 /* The EOS ROM is 8 KiB. MAME and ColEm keep it as one 16 KiB file whose
  * first 8 KiB are that ROM; such a file is taken, its first half used,
  * only when that half's CRC32 is the one Gearcoleco expects (src/Adam.cpp;
- * the pinned dump, SHA-1 AD3C20EF...). The owner decided it (2026-11-15). */
+ * the common 8 KiB dump, SHA-1 AD3C20EF...). The owner decided it
+ * (2026-11-15). The package pins no EOS file: this check is the only one. */
 static uint32_t crc32_of(const uint8_t *p, long n)
 {
 	uint32_t crc = ~0U;

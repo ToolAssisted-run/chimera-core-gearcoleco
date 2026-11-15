@@ -113,13 +113,15 @@ its debugger windows and its MCP server, and nothing with network code.
   picture), the input-poll callback and save data.
 - **Firmware.** `colecovision.rom` (8 KiB) is pinned to the common OS-7
   dump, SHA-1 45BEDC4CBDEAC66C7DF59E9E599195C778D86A92 (CRC32 3aa93ef3; the
-  same pin as the Mesen core). `eos.rom` (8 KiB) is pinned to SHA-1
-  AD3C20EF444F10AF7AE8EB75C81E500D9B1BBA3D (CRC32 05a37a34) and
-  `writer.rom` (32 KiB) to SHA-1 D4AEC4EFE1431E56FE52D83BAF9118542C525255
-  (CRC32 58d86a2a): the CRC32s Gearcoleco itself expects (src/Adam.cpp),
-  pinned on 2026-11-15, when the owner's dumps arrived, as the owner had
-  decided ("pin eos.rom and writer.rom once dumps arrive"). The
-  SmartWriter dump is MAME's `wp_r80.rom`.
+  same pin as the Mesen core). `writer.rom` (32 KiB) is pinned to SHA-1
+  D4AEC4EFE1431E56FE52D83BAF9118542C525255 (CRC32 58d86a2a, the CRC32
+  Gearcoleco itself expects, src/Adam.cpp), pinned on 2026-11-15, when the
+  owner's dumps arrived, as the owner had decided ("pin eos.rom and
+  writer.rom once dumps arrive"). The SmartWriter dump is MAME's
+  `wp_r80.rom`. `eos.rom` was pinned the same day to the common 8 KiB
+  dump, SHA-1 AD3C20EF444F10AF7AE8EB75C81E500D9B1BBA3D (CRC32 05a37a34),
+  and the pin was then dropped (below): the core checks the EOS file
+  itself.
   What a pin does in Chimera (read in Chimera a0b446f8, not changed): the
   package's `sha1` is one hash. Chimera's New Project window finds a pinned
   file only by that hash, and refuses a file chosen by hand whose SHA-1
@@ -131,21 +133,26 @@ its debugger windows and its MCP server, and nothing with network code.
 - **A 16 KiB EOS file** (owner, 2026-11-15: "Accept, use first 8 KiB").
   MAME and ColEm keep EOS as one 16 KiB file (`EOS.ROM`, SHA-1
   28C7616CD02E4286F9B4C1C4A8B8850832B49FCB, CRC32 ef6403c5) whose first
-  8 KiB are the pinned dump. The core takes `eos.rom` at 8 KiB as before,
-  or at 16 KiB when the first 8 KiB have the CRC32 Gearcoleco expects of
-  EOS (05a37a34), and then uses those 8 KiB. Any other size, or a 16 KiB
+  8 KiB are the common 8 KiB dump. The core takes `eos.rom` at 8 KiB as
+  before, or at 16 KiB when the first 8 KiB have the CRC32 Gearcoleco
+  expects of EOS (05a37a34), and then uses those 8 KiB. Any other size, or a 16 KiB
   file whose first half is not EOS, is refused with a message naming the
   file and the sizes taken (`error.eos_size`, `error.eos_half`). The
-  declaration no longer gives `eos.rom` a size, since it has two; the pin
-  stays the 8 KiB dump's. A package's `sha1` cannot name two dumps without
-  a change to Chimera, so the 16 KiB file is not recognised by its hash:
-  the Firmware page shows it as not recognised and uses it, chimera-run
-  uses it, and a project made with it records its own SHA-1, so its movies
-  name a different EOS from movies made with the 8 KiB file (the owner
-  knew this). In the New Project window it cannot be chosen by hand (the
-  refusal above) and is not found by a folder scan, so a person using the
-  window needs the 8 KiB file; whether a 16 KiB file remembered on the
-  Firmware page reaches a new project was not tried. The EOS stand-in's
+  declaration no longer gives `eos.rom` a size, since it has two. A project
+  made with the 16 KiB file records its own SHA-1, so its movies name a
+  different EOS from movies made with the 8 KiB file (the owner knew this).
+- **EOS is not pinned** (owner, 2026-11-15: "Drop the EOS pin"). A
+  package's `sha1` names one dump, and with the 8 KiB one pinned the New
+  Project window refused the 16 KiB file (the refusal above). So `eos.rom`
+  declares no `sha1` and no `size`, only its name and the name hint "eos":
+  the window takes any file for it, chosen by hand or found by a folder
+  scan by its name (eos.rom, in any case) or, failing that, as the one file
+  whose name holds "eos" (firmware.cpp, findFirmware and hintCandidates).
+  The core is what checks it, when the machine starts: 8 KiB, or 16 KiB
+  with EOS's CRC32 in the first half, or refused with its message. The
+  cost: Chimera shows no EOS file as recognised, and a wrong 8 KiB file
+  (another revision, or not EOS at all) is not caught by Chimera or the
+  core; Gearcoleco runs whatever 8 KiB it is given. The EOS stand-in's
   last four bytes are set so its CRC32 is 05a37a34, so that the tests can
   build a 16 KiB stand-in the core takes (tests/make-test-content.py).
 
@@ -189,8 +196,8 @@ presses dropped, the media left out of the save data, PAL ignored) gave
   in the owner's folder, "Venture (1982) (Coleco).int", is an Intellivision
   ROM (its first bytes are no ColecoVision header) and is rightly refused.
   No Super Game Module game was on hand.
-- The ADAM on its real ROMs (the pinned EOS and SmartWriter, and the
-  pinned OS-7), 2026-11-15. With no media it starts SmartWriter: the
+- The ADAM on its real ROMs (the common 8 KiB EOS dump, and the pinned
+  SmartWriter and OS-7), 2026-11-15. With no media it starts SmartWriter: the
   screen is blank cyan with the ruler at frame 60 and shows "ADAM'S
   ELECTRONIC TYPEWRITER" from frame 300 on (looked at: 60, 300, 600).
   Typed on from frame 60 (the harness's key exercise), the letters and
@@ -249,3 +256,16 @@ presses dropped, the media left out of the save data, PAL ignored) gave
   reads EOS (the stand-in program never calls it, and SmartWriter typing
   gave the same machine), so a core that used the wrong half would pass
   adam:eos-16k; it was tried on purpose and did.
+- 2026-11-15 (owner, 2026-11-15): the EOS pin dropped; the core checks the
+  EOS file, and Chimera does not (section 3, "EOS is not pinned"). Run
+  through the window, headless, with its New Project driven by the MCP
+  server's create_project (which picks firmware the way the window's
+  Select File and Scan Folder do): with the pinned package the 16 KiB
+  EOS.ROM, a 12 KiB file and a file with its halves swapped were refused
+  as "not this file"; without the pin the 8 KiB file, the 16 KiB file
+  given by path, and the 16 KiB file found by a scan of a folder holding
+  only EOS.ROM were all taken, and the ADAM was made with each. The 12 KiB
+  file and the swapped one were taken by New Project and then refused when
+  the machine started, with the core's messages. run-gate.sh 38 ok,
+  run-local.sh 7 ok, run-frontend.sh 6 ok, contract tests 24 pass. Not
+  run: the window's dialogs clicked by a person, and the Firmware page.
