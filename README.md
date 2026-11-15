@@ -15,8 +15,11 @@ setting Machine picks the ColecoVision or the ADAM.
 - The ColecoVision BIOS, OS-7 (8 KB, usually `colecovision.rom` or
   `coleco.rom`; SHA-1 45BEDC4CBDEAC66C7DF59E9E599195C778D86A92). Both
   machines need it.
-- For the ADAM: the EOS ROM (8 KB, `eos.rom`) and the SmartWriter ROM (32 KB,
-  `writer.rom` or `wp.rom`).
+- For the ADAM: the EOS ROM (8 KB, `eos.rom`; SHA-1
+  AD3C20EF444F10AF7AE8EB75C81E500D9B1BBA3D) and the SmartWriter ROM (32 KB,
+  `writer.rom`, `wp.rom` or `wp_r80.rom`; SHA-1
+  D4AEC4EFE1431E56FE52D83BAF9118542C525255). A 16 KB EOS file, as ColEm and
+  MAME keep it, is refused: its first 8 KB are the expected ROM.
 - Your games: cartridges (.col, .cv, .rom, .bin, .zip), ADAM disks (.dsk)
   and data packs (.ddp).
 

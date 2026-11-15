@@ -56,7 +56,9 @@ The test programs are built from `tests/make-test-content.py` by the scripts
 themselves. Games and the real firmware for local runs go in
 `tests/roms-local/` (ignored by git): `./waterbox/tests/run-local.sh` runs the
 games docs/PLAN.md names with the real BIOS (`Coleco_Bios.bin`), checked by
-SHA-1, and says SKIP for each that is absent.
+SHA-1, and with the real ADAM ROMs (`eos.rom`, `writer.rom`, by the SHA-1s
+the package pins) also SmartWriter and the games on the ADAM. It says SKIP
+for each file that is absent.
 
 ## CI
 

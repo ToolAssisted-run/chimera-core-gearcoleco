@@ -113,10 +113,19 @@ its debugger windows and its MCP server, and nothing with network code.
   picture), the input-poll callback and save data.
 - **Firmware.** `colecovision.rom` (8 KiB) is pinned to the common OS-7
   dump, SHA-1 45BEDC4CBDEAC66C7DF59E9E599195C778D86A92 (CRC32 3aa93ef3; the
-  same pin as the Mesen core). `eos.rom` (8 KiB, CRC32 05a37a34 is the
-  common dump) and `writer.rom` (32 KiB, CRC32 58d86a2a) are declared by
-  size and name only: their SHA-1s were not on hand on 2026-11-14 (the
-  owner's firmware had not arrived), and are the owner's to pin.
+  same pin as the Mesen core). `eos.rom` (8 KiB) is pinned to SHA-1
+  AD3C20EF444F10AF7AE8EB75C81E500D9B1BBA3D (CRC32 05a37a34) and
+  `writer.rom` (32 KiB) to SHA-1 D4AEC4EFE1431E56FE52D83BAF9118542C525255
+  (CRC32 58d86a2a): the CRC32s Gearcoleco itself expects (src/Adam.cpp),
+  pinned on 2026-11-15, when the owner's dumps arrived, as the owner had
+  decided ("pin eos.rom and writer.rom once dumps arrive"). A pin only names
+  the good dump: Chimera still runs a file of the right size whose SHA-1
+  differs (it says it does not recognise it), which is how the tests feed
+  their stand-ins. The SmartWriter dump is MAME's `wp_r80.rom`. MAME and
+  ColEm keep EOS as one 16 KiB file (`EOS.ROM`, SHA-1 28c7616c...,
+  CRC32 ef6403c5) whose first 8 KiB are the pinned dump; Gearcoleco takes
+  only the 8 KiB one, and so does this core: the 16 KiB file is refused
+  with "The firmware 'eos.rom' is 16384 bytes; it must be 8192 bytes".
 
 ## 4. The tests
 
@@ -156,8 +165,28 @@ presses dropped, the media left out of the save data, PAL ignored) gave
   in the owner's folder, "Venture (1982) (Coleco).int", is an Intellivision
   ROM (its first bytes are no ColecoVision header) and is rightly refused.
   No Super Game Module game was on hand.
-- The ADAM has not run on its real ROMs (EOS and SmartWriter were not on
-  hand): only on this repository's stand-ins.
+- The ADAM on its real ROMs (the pinned EOS and SmartWriter, and the
+  pinned OS-7), 2026-11-15. With no media it starts SmartWriter: the
+  screen is blank cyan with the ruler at frame 60 and shows "ADAM'S
+  ELECTRONIC TYPEWRITER" from frame 300 on (looked at: 60, 300, 600).
+  Typed on from frame 60 (the harness's key exercise), the letters and
+  digits appear on the page (frames 600, 1200, 1800 looked at).
+  Carnival and Oil's Well as the ADAM's only cartridge start as games, as
+  upstream decides: Carnival's Coleco title at frame 300, its option screen
+  at 1800 with nothing pressed; with the pad exercise Carnival plays to a
+  score of 250 at frame 1800 and 560 at 3600; Oil's Well is in its maze
+  at frame 900 (score 0) and at 3600 (score 60). Each run is native ==
+  sandbox == rerecord (`waterbox/tests/run-local.sh`, which now runs these
+  when eos.rom and writer.rom are in tests/roms-local). Through the package
+  and Chimera's headless runner (chimera-run): an ADAM project with no
+  media shows SmartWriter at frames 300, 600 and 1799; one with Carnival
+  shows its option screen at 1799; a movie typing a-z from frame 400 shows
+  the letters at 1799, and its Main RAM is the same over two replays and a
+  replay with a savestate saved and loaded around every frame.
+- No ADAM disk or data pack was on hand (the owner's roms folder has no
+  ADAM folder): the disk and data pack drives have run only the stand-ins,
+  not with the real ROMs, and no ADAM program from a disk or data pack has
+  been tried. Nothing was saved from SmartWriter to a medium.
 - The F18A is run only with the test cartridge, which uses none of its own
   features.
 - MegaCart, Activision and OCM boards and battery save data are not run (no
@@ -174,3 +203,9 @@ presses dropped, the media left out of the save data, PAL ignored) gave
 - 2026-11-14 (later): the owner's BIOS matches the pin; Carnival and Oil's
   Well played into the game, native == sandbox == rerecord over 3600
   frames; waterbox/tests/run-local.sh added for them (SKIP when absent).
+- 2026-11-15: the owner's EOS and SmartWriter dumps match Gearcoleco's
+  CRC32s; both SHA-1s pinned. The ADAM boots SmartWriter and takes typing,
+  and starts a cartridge alone as the game, on the real ROMs, through the
+  harness and through the package (section 4). run-local.sh runs the ADAM
+  too: 6 ok. run-gate.sh 35 ok, run-frontend.sh 6 ok and Chimera's
+  contract tests (24 pass) with the stand-ins and the pinned package.
